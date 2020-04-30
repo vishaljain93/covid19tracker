@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Cornona Virus Tracker Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Cornona Virus Tracker Application</h1>
+    <p>This application lists the current number of cases reported across the globe</p>
+
+    <table class="table">
+        <tr>
+            <th>States</th>
+            <th>Confirmed</th>
+            <th>Active</th>
+            <th>Recovered</th>
+            <th>Deceased</th>
+        </tr>
+        <tr th:each="states : ${StatesFulldata}" th:with="state=${states.value}">
+            <td th:text="${states.key}"></td>
+            <td th:text="${state.confirmed}"></td>
+            <td th:text="${state.active}"></td>
+            <td th:text="${state.recovered}"></td>
+            <td th:text="${state.deceased}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+
+</html>
