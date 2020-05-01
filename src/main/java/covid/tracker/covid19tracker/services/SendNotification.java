@@ -1,6 +1,5 @@
 package covid.tracker.covid19tracker.services;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import covid.tracker.covid19tracker.beans.Config;
@@ -12,15 +11,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-
 @Slf4j
 @Service
 public class SendNotification implements Covid19SlackApp {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    private StateData stateData;
+    private final StateData stateData;
 
     @Autowired
     public SendNotification(RestTemplate restTemplate, StateData stateData) {
@@ -29,12 +26,12 @@ public class SendNotification implements Covid19SlackApp {
     }
 
     @Override
-    @PostConstruct
+    // @PostConstruct
     @Scheduled(cron = "* * 1 * * *")
     public void sendMessage() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         SlackMessage request = mapper.readValue(stateData.getStateData(), SlackMessage.class);
-        String response = restTemplate.postForObject(Config.SLACK.getUrl(), request, String.class);
+        String response = restTemplate.postForObject(Config.SLACK.getConstants(), request, String.class);
         log.info(response);
     }
 }

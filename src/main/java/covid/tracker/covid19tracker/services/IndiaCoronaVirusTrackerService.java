@@ -3,7 +3,6 @@ package covid.tracker.covid19tracker.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import covid.tracker.covid19tracker.beans.Config;
-import covid.tracker.covid19tracker.constants.Constants;
 import covid.tracker.covid19tracker.model.Cities;
 import covid.tracker.covid19tracker.model.States;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import java.net.http.HttpResponse;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @Service
 public class IndiaCoronaVirusTrackerService {
@@ -40,7 +38,7 @@ public class IndiaCoronaVirusTrackerService {
         Map<String, Map<String, Integer>> newCities = new TreeMap<>();
 
         ObjectMapper mapper = new ObjectMapper();
-        HttpResponse<String> response = indiaHttpConnection.getResponse(Config.INDIA_DATA_API.getUrl());
+        HttpResponse<String> response = indiaHttpConnection.getResponse(Config.INDIA_DATA_API.getConstants());
         Map<String, States> dataMap = mapper.readValue(response.body(), new TypeReference<TreeMap<String, States>>() {
         });
 
@@ -48,6 +46,7 @@ public class IndiaCoronaVirusTrackerService {
     }
 
     private void setData(Map<String, States> dataMap, Map<String, Map<String, Integer>> newStates, Map<String, Map<String, Integer>> newCities) {
+
         for (String stateName : dataMap.keySet()) {
             int[] stateCaseCount = new int[LENGTH];
             Map<String, Integer> newStateCasesMap = new TreeMap<>();
@@ -76,7 +75,7 @@ public class IndiaCoronaVirusTrackerService {
         stateCaseCount[3] += city.getRecovered();
     }
 
-    private void populateCasesCount(int[] stateCaseCount) {
+    private static void populateCasesCount(int[] stateCaseCount) {
         TOTAL_ACTIVE_CASES += stateCaseCount[0];
         TOTAL_CONFIRMED_CASES += stateCaseCount[1];
         TOTAL_DECEASED_CASES += stateCaseCount[2];
@@ -84,26 +83,22 @@ public class IndiaCoronaVirusTrackerService {
     }
 
     private void populateNewStatesMap(Map<String, Integer> newStateCasesMap, int[] stateCaseCount) {
-        newStateCasesMap.put(Constants.ACTIVE, stateCaseCount[0]);
-        newStateCasesMap.put(Constants.CONFIRMED, stateCaseCount[1]);
-        newStateCasesMap.put(Constants.DECEASED, stateCaseCount[2]);
-        newStateCasesMap.put(Constants.RECOVERED, stateCaseCount[3]);
+        newStateCasesMap.put(Config.ACTIVE.getConstants(), stateCaseCount[0]);
+        newStateCasesMap.put(Config.CONFIRMED.getConstants(), stateCaseCount[1]);
+        newStateCasesMap.put(Config.DECEASED.getConstants(), stateCaseCount[2]);
+        newStateCasesMap.put(Config.RECOVERED.getConstants(), stateCaseCount[3]);
     }
 
     private void populateNewCitiesMap(Cities city, Map<String, Integer> newCityCasesMap) {
-        newCityCasesMap.put(Constants.ACTIVE, city.getActive());
-        newCityCasesMap.put(Constants.CONFIRMED, city.getConfirmed());
-        newCityCasesMap.put(Constants.DECEASED, city.getDeceased());
-        newCityCasesMap.put(Constants.RECOVERED, city.getRecovered());
+        newCityCasesMap.put(Config.ACTIVE.getConstants(), city.getActive());
+        newCityCasesMap.put(Config.CONFIRMED.getConstants(), city.getConfirmed());
+        newCityCasesMap.put(Config.DECEASED.getConstants(), city.getDeceased());
+        newCityCasesMap.put(Config.RECOVERED.getConstants(), city.getRecovered());
     }
 
 
     public Map<String, Map<String, Integer>> getSTATES() {
         return this.STATES;
-    }
-
-    public Map<String, Map<String, Integer>> getCITIES() {
-        return this.CITIES;
     }
 
     public static Integer getTotalActiveCases() {

@@ -13,7 +13,7 @@
 
 <div class="container">
     <h1>Cornona Virus Tracker Application</h1>
-    <p>This application lists the current number of cases reported across the globe</p>
+    <p>This application lists the current number of cases reported across India</p>
 
     <table class="table">
         <tr>
@@ -23,7 +23,7 @@
             <th>Recovered</th>
             <th>Deceased</th>
         </tr>
-        <tr th:each="states : ${StatesFulldata}" th:with="state=${states.value}">
+        <tr th:each="states : ${StatesData}" th:with="state=${states.value}">
             <td th:text="${states.key}"></td>
             <td th:text="${state.confirmed}"></td>
             <td th:text="${state.active}"></td>

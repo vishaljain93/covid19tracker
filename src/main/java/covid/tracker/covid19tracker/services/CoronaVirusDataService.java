@@ -36,7 +36,7 @@ public class CoronaVirusDataService {
     public void fetchVirusData() throws IOException, InterruptedException {
         List<LocationStats> newStats = new ArrayList<>();
 
-        HttpResponse<String> response = indiaHttpConnection.getResponse(Config.WORLD_DATA_CSV.getUrl());
+        HttpResponse<String> response = indiaHttpConnection.getResponse(Config.WORLD_DATA_CSV.getConstants());
         StringReader reader = new StringReader(response.body());
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
         setLocationStatas(records, newStats);
@@ -50,7 +50,7 @@ public class CoronaVirusDataService {
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int previousDayCases = Integer.parseInt(record.get(record.size() - 2));
             locationStat.setLatestTotalCases(latestCases);
-            locationStat.setDiffFromPrevoiusDay(latestCases - previousDayCases);
+            locationStat.setDiffFromPreviousDay(latestCases - previousDayCases);
             newStats.add(locationStat);
         }
         this.allStats = newStats;

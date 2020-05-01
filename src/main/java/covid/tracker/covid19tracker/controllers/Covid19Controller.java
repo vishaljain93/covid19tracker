@@ -1,6 +1,6 @@
 package covid.tracker.covid19tracker.controllers;
 
-import covid.tracker.covid19tracker.constants.Constants;
+import covid.tracker.covid19tracker.beans.Config;
 import covid.tracker.covid19tracker.services.IndiaCoronaVirusTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +15,13 @@ public class Covid19Controller {
 
     @GetMapping("/india")
     public String getIndiaCovid19Data(Model model) {
-        model.addAttribute(Constants.TOTAL_ACTIVE_CASES, IndiaCoronaVirusTrackerService.getTotalActiveCases());
-        model.addAttribute(Constants.TOTAL_CONFIRMED_CASES, IndiaCoronaVirusTrackerService.getTotalConfirmedCases());
-        model.addAttribute(Constants.TOTAL_DECEASED_CASES, IndiaCoronaVirusTrackerService.getTotalDeceasedCases());
-        model.addAttribute(Constants.TOTAL_RECOVERED_CASES, IndiaCoronaVirusTrackerService.getTotalRecoveredCases());
-        model.addAttribute(Constants.STATES, indiaCoronaVirusTrackerService.getListOfStates());
-        model.addAttribute(Constants.CITIES, indiaCoronaVirusTrackerService.getListOfCities());
-        model.addAttribute(Constants.STATE_FULL_DATA, indiaCoronaVirusTrackerService.getSTATES());
-        return Constants.COVID_19_INDIA;
+        model.addAttribute(Config.TOTAL_ACTIVE_CASES.getConstants(), IndiaCoronaVirusTrackerService.getTotalActiveCases());
+        model.addAttribute(Config.TOTAL_CONFIRMED_CASES.getConstants(), IndiaCoronaVirusTrackerService.getTotalConfirmedCases());
+        model.addAttribute(Config.TOTAL_DECEASED_CASES.getConstants(), IndiaCoronaVirusTrackerService.getTotalDeceasedCases());
+        model.addAttribute(Config.TOTAL_RECOVERED_CASES.getConstants(), IndiaCoronaVirusTrackerService.getTotalRecoveredCases());
+        model.addAttribute(Config.STATES.getConstants(), indiaCoronaVirusTrackerService.getListOfStates());
+        model.addAttribute(Config.CITIES.getConstants(), indiaCoronaVirusTrackerService.getListOfCities());
+        model.addAttribute(Config.STATE_DATA.getConstants(), indiaCoronaVirusTrackerService.getSTATES());
+        return Config.COVID_19_INDIA.getConstants();
     }
 }

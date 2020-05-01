@@ -1,6 +1,5 @@
 package covid.tracker.covid19tracker.beans;
 
-import covid.tracker.covid19tracker.constants.Constants;
 import covid.tracker.covid19tracker.services.IndiaCoronaVirusTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,16 +10,19 @@ import java.util.Map;
 public class StateData {
 
     @Autowired
-    private IndiaCoronaVirusTrackerService indiaCoronaVirusTrackerService;
+    private final IndiaCoronaVirusTrackerService indiaCoronaVirusTrackerService;
 
     private static final String BOLD = "*";
-    private static final String BLOCK = "```";
     private static final String CODE = "`";
     private static final String NEW_LINE = "\\n";
     private static final String QUOTES = "\"";
     private static final String PIPE = "|";
     private static final String SPACE = " ";
     private static final String TEXT = "{\"text\": %s }";
+
+    public StateData(IndiaCoronaVirusTrackerService indiaCoronaVirusTrackerService) {
+        this.indiaCoronaVirusTrackerService = indiaCoronaVirusTrackerService;
+    }
 
     public String getStateData() {
         return formatData();
@@ -47,7 +49,7 @@ public class StateData {
             for (int i = 0; i < 30 - stateName.length(); i++) {
                 spaces.append(" ");
             }
-            totalStateCount.append(spaces + PIPE + SPACE + map.get(Constants.CONFIRMED) + SPACE + PIPE + NEW_LINE);
+            totalStateCount.append(spaces).append(PIPE).append(SPACE).append(map.get(Config.CONFIRMED)).append(SPACE).append(PIPE).append(NEW_LINE);
         }
         return String.format(TEXT, totalStateCount.append(QUOTES));
     }
